@@ -44,4 +44,11 @@ export class CoursesService {
     });
     return course;
   }
+
+  async findByName(name: string) {
+    return await this.courseRepository.findOne({ where: { name } });
+  }
+  async findByCode(courseCode: string) {
+    return await this.courseRepository.findOne({ where: { courseCode } });
+  }
 }

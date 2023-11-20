@@ -26,9 +26,9 @@ export class EnrollmentsService {
   // findAll() {
   //   return `This action returns all enrollments`;
   // }
-  // findOne(id: number) {
-  //   return `This action returns a #${id} enrollment`;
-  // }
+  async findOne(id: number) {
+    return await this.enrollmentRepository.findOne({ where: { id } });
+  }
   // update(id: number, updateEnrollmentDto: UpdateEnrollmentDto) {
   //   return `This action updates a #${id} enrollment`;
   // }

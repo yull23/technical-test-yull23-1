@@ -1,6 +1,13 @@
 import { MinLength } from 'class-validator';
+import { Inscription } from 'src/inscriptions/entities/inscription.entity';
 import { Teacher } from 'src/teachers/entities/teacher.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Course {
@@ -22,4 +29,7 @@ export class Course {
     eager: true,
   })
   teacher: Teacher;
+
+  @OneToMany(() => Inscription, (inscription) => inscription.course)
+  inscriptions: Inscription[];
 }
