@@ -7,7 +7,7 @@ export class Course {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   @MinLength(6)
   name: string;
 
@@ -17,6 +17,6 @@ export class Course {
   @Column({ unique: true })
   courseCode: string;
 
-  @ManyToOne(() => Teacher, (teacher) => teacher.courses)
+  @ManyToOne(() => Teacher, (teacher) => teacher.courses, { nullable: true })
   teacher: Teacher;
 }
