@@ -38,19 +38,10 @@ export class CoursesService {
     // return { teacher, course };
   }
 
-  // findAll() {
-  //   return `This action returns all courses`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} course`;
-  // }
-
-  // update(id: number, updateCourseDto: UpdateCourseDto) {
-  //   return `This action updates a #${id} course`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} course`;
-  // }
+  async findOne(id: number) {
+    const course = await this.courseRepository.findOne({
+      where: { id },
+    });
+    return course;
+  }
 }

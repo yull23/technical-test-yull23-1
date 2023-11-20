@@ -39,8 +39,8 @@ export class User {
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
   password: string;
 
-  @OneToOne(() => Teacher, (teacher) => teacher.user)
+  @OneToOne(() => Teacher, (teacher) => teacher.user, { eager: true })
   teacher: Teacher;
-  @OneToOne(() => Student, (student) => student.user)
+  @OneToOne(() => Student, (student) => student.user, { eager: true })
   student: Student;
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { AssignTeacherDto } from './dto/assgin-teacher';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -18,10 +18,10 @@ export class CoursesController {
   // }
 
   // @Auth([ListRole.Admin])
-  // @Get(':id')
-  // findOne(@Param('id') id: number) {
-  //   return this.coursesService.findOne(id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.coursesService.findOne(id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {

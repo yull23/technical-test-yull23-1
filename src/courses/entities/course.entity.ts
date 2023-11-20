@@ -17,6 +17,9 @@ export class Course {
   @Column({ unique: true })
   courseCode: string;
 
-  @ManyToOne(() => Teacher, (teacher) => teacher.courses, { nullable: true })
+  @ManyToOne(() => Teacher, (teacher) => teacher.courses, {
+    nullable: true,
+    eager: true,
+  })
   teacher: Teacher;
 }
