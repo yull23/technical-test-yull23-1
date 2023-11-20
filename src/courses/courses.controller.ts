@@ -1,4 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { RegisterCourseDto } from 'src/common/dtos/register-course.dto';
+import { ListRole } from 'src/common/enums/list-role.enum';
 import { CoursesService } from './courses.service';
 
 @Controller('courses')
@@ -29,4 +32,9 @@ export class CoursesController {
   // remove(@Param('id') id: string) {
   //   return this.coursesService.remove(+id);
   // }
+  @Auth([ListRole.Admin])
+  @Post()
+  createCourse(@Body() registerCourseDto: RegisterCourseDto) {
+    return this.coursesService.create(registerCourseDto);
+  }
 }

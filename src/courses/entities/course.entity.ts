@@ -1,3 +1,4 @@
+import { MinLength } from 'class-validator';
 import { Teacher } from 'src/teachers/entities/teacher.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -7,7 +8,11 @@ export class Course {
   id: number;
 
   @Column()
+  @MinLength(6)
   name: string;
+
+  @Column()
+  credits: number;
 
   @Column({ unique: true })
   courseCode: string;
