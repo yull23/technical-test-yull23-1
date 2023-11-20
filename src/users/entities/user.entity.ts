@@ -26,11 +26,11 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column()
+  @Column({ type: 'enum', default: ListRole.Student, enum: ListRole })
   @IsNotEmpty()
   role: ListRole;
 
-  @Column()
+  @Column({ nullable: false, select: false })
   @IsNotEmpty()
   @MinLength(8)
   @MaxLength(50)
