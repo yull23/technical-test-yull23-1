@@ -1,10 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { SemestersService } from 'src/semesters/semesters.service';
+import { StudentsService } from 'src/students/students.service';
+import { Repository } from 'typeorm';
+import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
+import { Enrollment } from './entities/enrollment.entity';
 
 @Injectable()
 export class EnrollmentsService {
-  // create(createEnrollmentDto: CreateEnrollmentDto) {
-  //   return 'This action adds a new enrollment';
-  // }
+  constructor(
+    @InjectRepository(Enrollment)
+    private readonly enrollmentRepository: Repository<Enrollment>,
+    private readonly studentsService: StudentsService,
+    private readonly semestersService: SemestersService,
+  ) {}
+  async create({ nameSemester, studentCode }: CreateEnrollmentDto) {
+    const student = await this.studentsService.findByCode(studentCode);
+    const semester = await this.semestersService.findByName(nameSemester);
+    return { student, semester };
+  }
   // findAll() {
   //   return `This action returns all enrollments`;
   // }

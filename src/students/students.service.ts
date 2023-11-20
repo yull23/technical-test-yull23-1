@@ -15,6 +15,9 @@ export class StudentsService {
     return this.studentRepository.save(createStudentDto);
   }
 
+  findByCode(studentCode: string) {
+    return this.studentRepository.findOne({ where: { studentCode } });
+  }
   findAll() {
     return `This action returns all students`;
   }

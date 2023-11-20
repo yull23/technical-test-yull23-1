@@ -26,6 +26,7 @@ export class SemestersService {
   async findAll() {
     return await this.semesterService.find();
   }
+
   async findOne(id: number) {
     return await this.semesterService.findOne({ where: { id } });
   }
