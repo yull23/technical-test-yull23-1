@@ -1,11 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { EnrollmentsService } from './enrollments.service';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ListRole } from 'src/common/enums/list-role.enum';
 import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
+import { EnrollmentsService } from './enrollments.service';
 
 @Controller('enrollments')
 export class EnrollmentsController {
   constructor(private readonly enrollmentsService: EnrollmentsService) {}
 
+  @Auth([ListRole.Admin])
   @Post()
   create(@Body() createEnrollmentDto: CreateEnrollmentDto) {
     return this.enrollmentsService.create(createEnrollmentDto);
