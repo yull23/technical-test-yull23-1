@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserDto } from 'src/common/dtos/register-user.dto';
 import { ListFieldsUser } from 'src/common/enums/list-fields-user.enum';
+import { ListRole } from 'src/common/enums/list-role.enum';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
@@ -29,5 +30,23 @@ export class UsersService {
         ListFieldsUser.Password,
       ],
     });
+  }
+
+  async createTeachers(teachers: string[]) {
+    const result = [];
+    for (const teacher of teachers) {
+      const existingTeacher = await this.findOneByEmail(teacher + '@mail.com');
+      const teacherData = {
+        firstName: teacher,
+        lastName: teacher,
+        email: teacher + '@mail.com',
+        password: '123456',
+        role: ListRole.Teacher,
+      };
+      if (!existingTeacher) {
+        result.push(await this.userRepository.save(teacherData));
+      }
+    }
+    return result;
   }
 }

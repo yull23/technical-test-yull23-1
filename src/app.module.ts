@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { CoursesModule } from './courses/courses.module';
+import { EnrollmentsModule } from './enrollments/enrollments.module';
+import { InscriptionsModule } from './inscriptions/inscriptions.module';
+import { SemestersModule } from './semesters/semesters.module';
 import { StudentsModule } from './students/students.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { CoursesModule } from './courses/courses.module';
-import { SemestersModule } from './semesters/semesters.module';
-import { EnrollmentsModule } from './enrollments/enrollments.module';
-import { InscriptionsModule } from './inscriptions/inscriptions.module';
 
 @Module({
   imports: [
@@ -34,7 +36,7 @@ import { InscriptionsModule } from './inscriptions/inscriptions.module';
     EnrollmentsModule,
     InscriptionsModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
