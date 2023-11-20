@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserDto } from 'src/common/dtos/register-user.dto';
-import { ListFieldsUser } from 'src/common/enums/list-fields-user.enum';
 import { ListRole } from 'src/common/enums/list-role.enum';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -19,17 +18,29 @@ export class UsersService {
   findOneByEmail(email: string) {
     return this.userRepository.findOneBy({ email });
   }
-  findByEmailWithPassword(email: string) {
-    return this.userRepository.findOne({
-      where: { email },
-      select: [
-        ListFieldsUser.Email,
-        ListFieldsUser.Role,
-        ListFieldsUser.FirstName,
-        ListFieldsUser.LastName,
-        ListFieldsUser.Password,
-      ],
-    });
+  async findByEmailWithPassword(email: string) {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.teacher', 'teacher')
+      .leftJoinAndSelect('user.student', 'student')
+      .where('user.email = :email', { email })
+      .select([
+        'user.email',
+        'user.role',
+        'user.firstName',
+        'user.lastName',
+        'user.password',
+      ])
+      .getOne();
+    return user;
+    // return {
+    //   firstName: 'student1',
+    //   lastName: 'student1',
+    //   email: 'student1@mail.com',
+    //   password: '$2a$10$PT8yjHZeHZsAejFPjshlI.bEW0BGf0uNysspOa3Hu1791cA0NkN1y',
+    //   role: 'student',
+    //   id: 36,
+    // };
   }
 
   async createTeachers(teachers: string[]) {

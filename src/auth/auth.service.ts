@@ -34,37 +34,30 @@ export class AuthService {
       const teacherCode: string = 'CODE' + newUser.email + 'TEACHER';
       return this.teacherService.create({ user: newUser, teacherCode });
     } else if (newUser.role === 'student') {
-      const studentCode = 'CODE' + newUser.email + 'STUDENT';
+      const studentCode: string = 'CODE' + newUser.email + 'STUDENT';
       return this.studentService.create({ user: newUser, studentCode });
     }
   }
   async login(loginUserDeto: LoginUserDeto) {
-    console.log('1');
     const user = await this.userService.findByEmailWithPassword(
       loginUserDeto.email,
     );
-    console.log('2');
     if (!user) {
       throw new UnauthorizedException('Email is wrong');
     }
-    console.log('3');
     let isPasswordValid: boolean;
     if (
       loginUserDeto.email === process.env.ADMIN_EMAIL &&
       loginUserDeto.password === process.env.ADMIN_PASSWORD
     ) {
-      console.log('4');
       isPasswordValid = true;
       console.log('Soy el admin');
     } else {
-      console.log('5');
       isPasswordValid = await bcryptjs.compare(
         loginUserDeto.password,
         user.password,
       );
     }
-    console.log('6');
-
     if (!isPasswordValid) {
       throw new UnauthorizedException('Password invalid');
     }

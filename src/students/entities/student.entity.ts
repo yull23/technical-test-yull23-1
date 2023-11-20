@@ -14,7 +14,7 @@ export class Student {
   id: number;
 
   @OneToOne(() => User)
-  @JoinColumn({ name: 'userId' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Column({ unique: true })

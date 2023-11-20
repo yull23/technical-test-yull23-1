@@ -41,6 +41,7 @@ export class User {
 
   @OneToOne(() => Teacher, (teacher) => teacher.user, { eager: true })
   teacher: Teacher;
+
   @OneToOne(() => Student, (student) => student.user, { eager: true })
   student: Student;
 }
