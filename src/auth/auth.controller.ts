@@ -10,6 +10,7 @@ import { Auth } from './decorators/auth.decorator';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authServices: AuthService) {}
+  @Auth([ListRole.Admin])
   @Post('register')
   register(@Body() registerUserDto: RegisterUserDto) {
     return this.authServices.register(registerUserDto);

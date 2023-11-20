@@ -1,8 +1,10 @@
+import { Course } from 'src/courses/entities/course.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -19,6 +21,6 @@ export class Teacher {
   @Column({ unique: true })
   teacherCode: string;
 
-  // @OneToMany(() => Course, (course) => course.teacher)
-  // courses: Course[];
+  @OneToMany(() => Course, (course) => course.teacher)
+  courses: Course[];
 }
