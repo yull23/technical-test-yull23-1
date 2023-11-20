@@ -51,4 +51,8 @@ export class AuthService {
       token,
     };
   }
+
+  async profile() {
+    return 'Profile';
+  }
 }
