@@ -6,7 +6,9 @@ import {
   MinLength,
 } from 'class-validator';
 import { ListRole } from 'src/common/enums/list-role.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Student } from 'src/students/entities/student.entity';
+import { Teacher } from 'src/teachers/entities/teacher.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -36,4 +38,9 @@ export class User {
   @MaxLength(50)
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
   password: string;
+
+  @OneToOne(() => Teacher, (teacher) => teacher.user)
+  teacher: Teacher;
+  @OneToOne(() => Student, (student) => student.user)
+  student: Student;
 }

@@ -21,7 +21,7 @@ export class AuthController {
   @Auth([ListRole.Admin, ListRole.Student])
   @Get('profile')
   profile(@ActiveUser() user: UserActiveInterface) {
-    return user.email;
+    return { email: user.email };
     // return this.authService.profile(user.email);
   }
 }

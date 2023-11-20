@@ -6,6 +6,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
 import { LoginUserDeto } from 'src/common/dtos/login-user.dto';
+import { StudentsService } from 'src/students/students.service';
+import { TeachersService } from 'src/teachers/teachers.service';
 import { UsersService } from 'src/users/users.service';
 import { RegisterUserDto } from '../common/dtos/register-user.dto';
 
@@ -13,6 +15,8 @@ import { RegisterUserDto } from '../common/dtos/register-user.dto';
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
+    private readonly teacherService: TeachersService,
+    private readonly studentService: StudentsService,
     private readonly jwtServices: JwtService,
   ) {}
 
@@ -21,10 +25,18 @@ export class AuthService {
     if (user) {
       throw new BadRequestException('Email already exists');
     }
-    return await this.userService.create({
+    const newUser = await this.userService.create({
+      // return await this.userService.create({
       ...registerUserDto,
       password: await bcryptjs.hash(registerUserDto.password, 10),
     });
+    if (newUser.role === 'teacher') {
+      const teacherCode: string = 'CODE' + newUser.email + 'TEACHER';
+      return this.teacherService.create({ user: newUser, teacherCode });
+    } else if (newUser.role === 'student') {
+      const studentCode = 'CODE' + newUser.email + 'STUDENT';
+      return this.studentService.create({ user: newUser, studentCode });
+    }
   }
   async login(loginUserDeto: LoginUserDeto) {
     const user = await this.userService.findByEmailWithPassword(
@@ -33,14 +45,24 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Email is wrong');
     }
-    console.log(user);
-    const isPasswordValid = await bcryptjs.compare(
-      loginUserDeto.password,
-      user.password,
-    );
+    let isPasswordValid: boolean;
+    if (
+      loginUserDeto.email === process.env.ADMIN_EMAIL &&
+      loginUserDeto.password === process.env.ADMIN_PASSWORD
+    ) {
+      isPasswordValid = true;
+      console.log('Soy el admin');
+    } else {
+      isPasswordValid = await bcryptjs.compare(
+        loginUserDeto.password,
+        user.password,
+      );
+    }
+
     if (!isPasswordValid) {
       throw new UnauthorizedException('Password invalid');
     }
+
     const payload = { email: user.email, role: user.role };
     const token = await this.jwtServices.signAsync(payload);
     return {
@@ -50,9 +72,5 @@ export class AuthService {
       role: user.role,
       token,
     };
-  }
-
-  async profile() {
-    return 'Profile';
   }
 }
