@@ -17,7 +17,11 @@ export class EnrollmentsService {
   async create({ nameSemester, studentCode }: CreateEnrollmentDto) {
     const student = await this.studentsService.findByCode(studentCode);
     const semester = await this.semestersService.findByName(nameSemester);
-    return { student, semester };
+    const enrollment = this.enrollmentRepository.create({
+      student,
+      semester,
+    });
+    return await this.enrollmentRepository.save(enrollment);
   }
   // findAll() {
   //   return `This action returns all enrollments`;

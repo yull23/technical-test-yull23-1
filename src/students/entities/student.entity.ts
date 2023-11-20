@@ -1,8 +1,10 @@
+import { Enrollment } from 'src/enrollments/entities/enrollment.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -18,6 +20,6 @@ export class Student {
   @Column({ unique: true })
   studentCode: string;
 
-  // @OneToMany(() => Course, (course) => course.teacher)
-  // courses: Course[];
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
+  enrollments: Enrollment[];
 }
