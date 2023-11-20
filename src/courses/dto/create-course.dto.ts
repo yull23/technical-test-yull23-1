@@ -8,6 +8,6 @@ export class CreateCourseDto {
   @IsNumber()
   credits: number;
 
-  @IsString()
-  teacherCode: string;
+  // @IsString()
+  // teacherCode?: string;
 }

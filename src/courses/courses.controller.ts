@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CoursesService } from './courses.service';
+import { AssignTeacherDto } from './dto/assgin-teacher';
 import { CreateCourseDto } from './dto/create-course.dto';
 
 @Controller('courses')
@@ -16,9 +17,10 @@ export class CoursesController {
   //   return this.coursesService.findAll();
   // }
 
+  // @Auth([ListRole.Admin])
   // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.coursesService.findOne(+id);
+  // findOne(@Param('id') id: number) {
+  //   return this.coursesService.findOne(id);
   // }
 
   // @Patch(':id')
@@ -35,8 +37,8 @@ export class CoursesController {
   createCourse(@Body() registerCourseDto: CreateCourseDto) {
     return this.coursesService.create(registerCourseDto);
   }
-  @Post()
-  assignTeacher(@Body() registerCourseDto: CreateCourseDto) {
-    return this.coursesService.create(registerCourseDto);
+  @Post('assign')
+  assignTeacher(@Body() assingCourseDto: AssignTeacherDto) {
+    return this.coursesService.assignTeacher(assingCourseDto);
   }
 }
